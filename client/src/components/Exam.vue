@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      step: 3,
+      step: 0,
       exams: {},
     };
   },

@@ -9,7 +9,7 @@ const computeScore = (solutions, answers) => {
   let score = 0;
   Object.keys(answers).forEach((key) => {
     if (answers[key] === solutions[key]) {
-      score += 1;
+      score += 4;
     }
   });
   return score;
