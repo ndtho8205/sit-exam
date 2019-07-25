@@ -19,17 +19,28 @@ router.post('/info', jsonParser, (req, res) => {
     res.sendStatus(400);
     return;
   }
+  const studentInfo = {
+    name: req.body.studentInfo.name,
+    gender: req.body.studentInfo.gender,
+    country: req.body.studentInfo.country,
+    email: req.body.studentInfo.email,
+  };
+  if (studentInfo.name === undefined || studentInfo.gender === undefined
+    || studentInfo.country === undefined || studentInfo.email === undefined) {
+    res.sendStatus(400);
+    return;
+  }
 
   const callback = (studentId, err) => {
     if (studentId === null || err) {
       res.sendStatus(500);
       logger.error(err);
-      throw err;
+      // throw err;
     }
     res.json({ studentId });
   };
 
-  infoController.post(req.body.studentInfo, callback);
+  infoController.post(studentInfo, callback);
 });
 
 router.get('/study/:lang(en|jp|kr)', (req, res) => {
@@ -38,7 +49,7 @@ router.get('/study/:lang(en|jp|kr)', (req, res) => {
     if (studyList === null || err) {
       res.sendStatus(500);
       logger.error(err);
-      throw err;
+      // throw err;
     }
 
     res.json({
@@ -56,7 +67,7 @@ router.get('/exam/:examId(1|2|3)-:lang(en|jp|kr)', (req, res) => {
     if (exams === null || err) {
       res.sendStatus(500);
       logger.error(err);
-      throw err;
+      // throw err;
     }
 
     res.json({
@@ -69,18 +80,31 @@ router.get('/exam/:examId(1|2|3)-:lang(en|jp|kr)', (req, res) => {
 });
 
 router.post('/exam/:examId(1|2|3)-:lang(en|jp|kr)', jsonParser, (req, res) => {
+  if (!req.body) {
+    res.sendStatus(400);
+    return;
+  }
+  const data = {
+    studentId: req.body.studentId,
+    answers: req.body.answers,
+  };
+  if (data.studentId === undefined || data.answers === undefined) {
+    res.sendStatus(400);
+    return;
+  }
+
   const { examId, lang } = req.params;
   const callback = (examScore, err) => {
     if (examScore === null || err) {
       res.sendStatus(500);
       logger.error(err);
-      throw err;
+      // throw err;
     }
 
     res.json({ score: examScore });
   };
 
-  examController.post(examId, lang, req.body, callback);
+  examController.post(examId, lang, data, callback);
 });
 
 module.exports = router;

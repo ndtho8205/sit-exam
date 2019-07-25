@@ -1,4 +1,7 @@
 # Created by https://www.gitignore.io/api/node,visualstudiocode
+**/*.csv
+**/*.xlsx
+**/*.docx
 
 ### Node ###
 # Logs

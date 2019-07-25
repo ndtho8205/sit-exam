@@ -191,7 +191,7 @@ export default {
       }
     },
     submitAnswer() {
-      this.$refs.countdown.abort();
+      this.$store.commit('clearError');
       const data = {
         studentId: this.$store.state.studentInfo.id,
         answers: { ...this.answers },
@@ -206,6 +206,7 @@ export default {
           return;
         }
 
+        this.$refs.countdown.abort();
         this.score = res.data.score;
         this.step += 1;
       };

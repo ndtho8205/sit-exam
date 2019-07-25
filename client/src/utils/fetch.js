@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const fetch = axios.create({
-  baseURL: process.env.SERVER_URL || 'http://localhost:3000/api/',
+  baseURL: process.env.VUE_APP_SERVER_URL || 'http://localhost:3000/api/',
   timeout: 1000,
   headers: {
     // Authorization: '',
