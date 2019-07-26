@@ -38,11 +38,23 @@
         >Test 3</v-stepper-step>
       </v-stepper-header>
 
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        rounded
+        height="3"
+        top
+        class="ma-0"
+        color="deep-purple accent-4"
+      ></v-progress-linear>
+
       <v-stepper-items>
         <v-stepper-content step="1">
           <ExamQuestion
             :examId="1"
             v-on:endExamQuestion="step = 2"
+            v-on:onLoading="handleLoading"
           />
         </v-stepper-content>
 
@@ -50,6 +62,7 @@
           <ExamQuestion
             :examId="2"
             v-on:endExamQuestion="step = 3"
+            v-on:onLoading="handleLoading"
           />
         </v-stepper-content>
 
@@ -61,6 +74,7 @@
           <ExamQuestion
             :examId="3"
             v-on:endExamQuestion="endExam"
+            v-on:onLoading="handleLoading"
           />
         </v-stepper-content>
       </v-stepper-items>
@@ -81,6 +95,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       step: 0,
       exams: {},
     };
@@ -91,6 +106,12 @@ export default {
     },
     endExam() {
       this.$emit('endExam');
+    },
+    handleLoading(status) {
+      this.loading = status;
+      if (this.loading) {
+        setTimeout(() => { this.loading = false; }, 2000);
+      }
     },
   },
 };

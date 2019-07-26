@@ -35,9 +35,12 @@ router.post('/info', jsonParser, (req, res) => {
     if (studentId === null || err) {
       res.sendStatus(500);
       logger.error(err);
+      return;
       // throw err;
     }
-    res.json({ studentId });
+    if (!res.headersSent) {
+      res.json({ studentId });
+    }
   };
 
   infoController.post(studentInfo, callback);
@@ -49,13 +52,15 @@ router.get('/study/:lang(en|jp|kr)', (req, res) => {
     if (studyList === null || err) {
       res.sendStatus(500);
       logger.error(err);
+      return;
       // throw err;
     }
-
-    res.json({
-      descriptions: studyList.descriptions,
-      items: studyList.items,
-    });
+    if (!res.headersSent) {
+      res.json({
+        descriptions: studyList.descriptions,
+        items: studyList.items,
+      });
+    }
   };
 
   studyController.get(lang, callback);
@@ -67,13 +72,15 @@ router.get('/exam/:examId(1|2|3)-:lang(en|jp|kr)', (req, res) => {
     if (exams === null || err) {
       res.sendStatus(500);
       logger.error(err);
+      return;
       // throw err;
     }
-
-    res.json({
-      descriptions: exams.descriptions,
-      questions: exams.questions,
-    });
+    if (!res.headersSent) {
+      res.json({
+        descriptions: exams.descriptions,
+        questions: exams.questions,
+      });
+    }
   };
 
   examController.get(examId, lang, callback);
@@ -98,10 +105,12 @@ router.post('/exam/:examId(1|2|3)-:lang(en|jp|kr)', jsonParser, (req, res) => {
     if (examScore === null || err) {
       res.sendStatus(500);
       logger.error(err);
+      return;
       // throw err;
     }
-
-    res.json({ score: examScore });
+    if (!res.headersSent) {
+      res.json({ score: examScore });
+    }
   };
 
   examController.post(examId, lang, data, callback);

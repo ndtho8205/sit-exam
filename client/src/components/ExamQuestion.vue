@@ -82,7 +82,7 @@
         >{{step == questions.length + 1 ? "Cancel" : "Back"}}</v-btn>
         <v-btn
           color="primary"
-          :disabled=" 0 < step && step <= this.questions.length && !hasAnswer(step)"
+          :disabled="nextButtonDisabled"
           @click="handleNext"
         >{{ nextButtonLabel }}</v-btn>
       </v-card-actions>
@@ -120,6 +120,7 @@ export default {
     // this.$nextTick(() => {
     //   this.step = 25;
     // });
+    this.$emit('onLoading', true);
 
     fetch.getExam(this.examId, this.$store.state.studentInfo.lang, (res, err) => {
       if (!res || err) {
@@ -160,6 +161,10 @@ export default {
           return 'Next';
       }
     },
+    nextButtonDisabled() {
+      return this.questions.length === 0
+        || (this.step > 0 && this.step <= this.questions.length && !this.hasAnswer(this.step));
+    },
   },
   methods: {
     start() {
@@ -169,6 +174,7 @@ export default {
     end() {
       this.timeup = true;
       this.step = this.questions.length + 1;
+      this.submitAnswer();
     },
     handlePrev() {
       if (this.step > 1) {
@@ -191,6 +197,7 @@ export default {
       }
     },
     submitAnswer() {
+      this.$emit('onLoading', true);
       this.$store.commit('clearError');
       const data = {
         studentId: this.$store.state.studentInfo.id,

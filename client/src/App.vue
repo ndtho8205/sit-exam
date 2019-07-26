@@ -2,7 +2,7 @@
   <v-app>
     <v-content
       :style="{ backgroundImage: 'url(' + background[mode] + ')' }"
-      class="white background"
+      class="white background prevent-copy"
     >
       <v-alert
         prominent
@@ -92,5 +92,12 @@ export default {
 .background {
   background-position: bottom right;
   background-size: 55%;
+}
+.prevent-copy {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 </style>

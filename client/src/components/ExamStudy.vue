@@ -130,7 +130,7 @@ export default {
     },
     end() {
       this.timeup = true;
-      this.step = this.questions.length + 1;
+      this.step += 1;
     },
     handleNext() {
       switch (this.step) {

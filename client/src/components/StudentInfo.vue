@@ -8,6 +8,17 @@
     offset-lg1
   >
     <v-card>
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        rounded
+        height="3"
+        top
+        class="ma-0"
+        color="deep-purple accent-4"
+      ></v-progress-linear>
+
       <v-card-title>
         <span class="display-1 text--primary">Information</span>
       </v-card-title>
@@ -113,6 +124,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: false,
       valid: false,
       nameRules: [
         v => !!v || 'Name is required',
@@ -143,7 +155,7 @@ export default {
       const studentInfo = {
         ...this.info,
       };
-
+      this.handleLoading(true);
       fetch.postStudentInfo(studentInfo, (res, err) => {
         if (!res || err) {
           this.$store.commit('setError', `${err.message}. Please try again or contact your administrator.`);
@@ -160,6 +172,12 @@ export default {
         });
         this.$emit('submitStudentInfo');
       });
+    },
+    handleLoading(status) {
+      this.loading = status;
+      if (this.loading) {
+        setTimeout(() => { this.loading = false; }, 2000);
+      }
     },
 
   },
