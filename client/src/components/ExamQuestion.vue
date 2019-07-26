@@ -7,7 +7,7 @@
     <v-flex align-self-end>
       <VueCountdown
         v-if="step != this.questions.length + 2"
-        :time="60 * 1000"
+        :time="330 * 1000"
         :auto-start="false"
         ref="countdown"
         @end="end"

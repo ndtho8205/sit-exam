@@ -34,7 +34,7 @@ router.post('/info', jsonParser, (req, res) => {
   const callback = (studentId, err) => {
     if (studentId === null || err) {
       res.sendStatus(400);
-      logger.error(err);
+      logger.error(err.message, err);
       return;
       // throw err;
     }
