@@ -7,7 +7,7 @@
     <v-flex align-self-end>
       <VueCountdown
         v-if="step != this.questions.length + 2"
-        :time="330 * 1000"
+        :time="60 * 1000"
         :auto-start="false"
         ref="countdown"
         @end="end"
@@ -63,6 +63,29 @@
         </v-window-item>
 
         <v-window-item :value="questions.length + 1">
+          <v-card-text>Overall, how easy or difficult was the test?</v-card-text>
+          <v-layout
+            column
+            my-5
+            ml-5
+          >
+            <v-layout
+              justify-space-between
+              row
+            >
+              <span>Very Easy</span>
+              <span class="text-end">Very Difficult</span>
+            </v-layout>
+            <v-rating
+              v-model="rating"
+              length="5"
+              :hover="true"
+              size="48"
+              :dense="true"
+              color="red"
+              background-color="grey lighten-1"
+            > </v-rating>
+          </v-layout>
           <v-card-text>Are you sure you want to submit this answer?</v-card-text>
         </v-window-item>
 
@@ -114,7 +137,16 @@ export default {
       descriptions: [],
       questions: [],
       answers: {},
+      rating: 0,
     };
+  },
+  watch: {
+    rating: (newValue, oldValue) => {
+      console.log(newValue, oldValue);
+      if (newValue !== 0 && this.timeup) {
+        this.submitAnswer();
+      }
+    },
   },
   created() {
     // this.$nextTick(() => {
@@ -163,7 +195,8 @@ export default {
     },
     nextButtonDisabled() {
       return this.questions.length === 0
-        || (this.step > 0 && this.step <= this.questions.length && !this.hasAnswer(this.step));
+        || (this.step > 0 && this.step <= this.questions.length && !this.hasAnswer(this.step))
+        || (this.step > this.questions.length && this.rating === 0);
     },
   },
   methods: {
@@ -174,7 +207,9 @@ export default {
     end() {
       this.timeup = true;
       this.step = this.questions.length + 1;
-      this.submitAnswer();
+      if (this.rating !== 0) {
+        this.submitAnswer();
+      }
     },
     handlePrev() {
       if (this.step > 1) {
@@ -202,6 +237,7 @@ export default {
       const data = {
         studentId: this.$store.state.studentInfo.id,
         answers: { ...this.answers },
+        rating: this.rating,
       };
       const callback = (res, err) => {
         if (!res || err) {

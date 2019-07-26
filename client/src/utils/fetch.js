@@ -34,6 +34,7 @@ const postAnswer = (examId, lang, data, callback) => {
     .post(`/exam/${examId}-${lang}`, {
       studentId: data.studentId,
       answers: data.answers,
+      rating: data.rating,
     })
     .then(res => callback(res, null))
     .catch((err) => {

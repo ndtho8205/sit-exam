@@ -33,7 +33,7 @@ router.post('/info', jsonParser, (req, res) => {
 
   const callback = (studentId, err) => {
     if (studentId === null || err) {
-      res.sendStatus(500);
+      res.sendStatus(400);
       logger.error(err);
       return;
       // throw err;
@@ -50,8 +50,8 @@ router.get('/study/:lang(en|jp|kr)', (req, res) => {
   const { lang } = req.params;
   const callback = (studyList, err) => {
     if (studyList === null || err) {
-      res.sendStatus(500);
-      logger.error(err);
+      res.sendStatus(400);
+      logger.error(err.message, err);
       return;
       // throw err;
     }
@@ -70,10 +70,9 @@ router.get('/exam/:examId(1|2|3)-:lang(en|jp|kr)', (req, res) => {
   const { examId, lang } = req.params;
   const callback = (exams, err) => {
     if (exams === null || err) {
-      res.sendStatus(500);
-      logger.error(err);
+      res.sendStatus(400);
+      logger.error(err.message, err);
       return;
-      // throw err;
     }
     if (!res.headersSent) {
       res.json({
@@ -94,8 +93,9 @@ router.post('/exam/:examId(1|2|3)-:lang(en|jp|kr)', jsonParser, (req, res) => {
   const data = {
     studentId: req.body.studentId,
     answers: req.body.answers,
+    rating: req.body.rating,
   };
-  if (data.studentId === undefined || data.answers === undefined) {
+  if (data.studentId === undefined || data.answers === undefined || data.rating === undefined) {
     res.sendStatus(400);
     return;
   }
@@ -103,10 +103,9 @@ router.post('/exam/:examId(1|2|3)-:lang(en|jp|kr)', jsonParser, (req, res) => {
   const { examId, lang } = req.params;
   const callback = (examScore, err) => {
     if (examScore === null || err) {
-      res.sendStatus(500);
-      logger.error(err);
+      res.sendStatus(400);
+      logger.error(err.message, err);
       return;
-      // throw err;
     }
     if (!res.headersSent) {
       res.json({ score: examScore });

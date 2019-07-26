@@ -75,10 +75,10 @@ const insertStudent = (studentInfo, callback) => {
   );
 };
 
-const updateStudentExam = (studentId, examId, examAnswers, examScore, callback) => {
+const updateStudentExam = (examId, data, callback) => {
   pool.query(
-    `UPDATE exam SET exam${examId}_answers = $1, exam${examId}_score = $2 WHERE id = $3`,
-    [examAnswers, examScore, studentId],
+    `UPDATE exam SET exam${examId}_answers = $1, exam${examId}_score = $2, exam${examId}_rating= $3 WHERE id = $4`,
+    [data.answers, data.score, data.rating, data.studentId],
     (err) => {
       if (err) {
         callback(err);

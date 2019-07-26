@@ -25,15 +25,17 @@ const post = (examId, lang, data, callback) => {
     }
 
     const { solutions } = exams;
-    const { studentId, answers } = data;
-    const score = computeScore(solutions, answers);
+    const newData = {
+      ...data,
+      score: computeScore(solutions, data.answers),
+    };
 
-    db.updateStudentExam(studentId, examId, answers, score, (error) => {
+    db.updateStudentExam(examId, newData, (error) => {
       if (error) {
         callback(null, error);
       }
 
-      callback(score, null);
+      callback(newData.score, null);
     });
   };
 
