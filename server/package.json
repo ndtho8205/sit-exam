@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "built": "echo \"Error: build not specified\"",
     "lint": "./node_modules/.bin/eslint --fix . --ignore-path .gitignore --ignore-pattern /public/*"
   },
   "license": "ISC",
