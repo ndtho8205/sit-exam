@@ -1,6 +1,5 @@
 const db = require('../db/queries');
 
-
 const get = (examId, lang, callback) => {
   db.selectExam(examId, lang, callback);
 };
@@ -14,7 +13,6 @@ const computeScore = (solutions, answers) => {
   });
   return score;
 };
-
 
 const post = (examId, lang, data, callback) => {
   const scoreCallback = (exams, err) => {

@@ -21,7 +21,7 @@ const selectExam = (examId, lang, callback) => {
 
   const csvPath = path.resolve(`${__dirname}/csv/exam_${examId}_${lang}.csv`);
   csv.parseFile(csvPath, { headers: ['explain', 'question', 'solution', 'a', 'b', 'c', 'd'], renameHeaders: true })
-    .on('error', err => callback(null, err))
+    .on('error', (err) => callback(null, err))
     .on('data', (row) => {
       if (row.explain.trim()) {
         exam.descriptions.push(row.explain.trim());
@@ -45,7 +45,7 @@ const selectStudyList = (lang, callback) => {
 
   const csvPath = path.resolve(`${__dirname}/csv/study_${lang}.csv`);
   csv.parseFile(csvPath, { headers: ['explain', 'item'], renameHeaders: true })
-    .on('error', err => callback(null, err))
+    .on('error', (err) => callback(null, err))
     .on('data', (row) => {
       if (row.explain.trim()) {
         studyList.descriptions.push(row.explain.trim());
