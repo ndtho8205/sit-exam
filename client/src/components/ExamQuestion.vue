@@ -135,7 +135,7 @@ export default {
     };
   },
   watch: {
-    rating: (newValue, oldValue) => {
+    rating(newValue, oldValue) {
       console.log(newValue, oldValue);
       if (newValue !== 0 && this.timeup) {
         this.submitAnswer();

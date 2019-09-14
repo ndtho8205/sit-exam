@@ -65,7 +65,10 @@ export default {
       mode: state => state.mode,
     }),
   },
-
+  created() {
+    const unloadHandler = () => 'You have some unsaved changes.';
+    window.onbeforeunload = unloadHandler;
+  },
   methods: {
     agree(agree) {
       this.step = agree ? 'StudentInfo' : 'ThankYou';
@@ -75,6 +78,7 @@ export default {
     },
     endExam() {
       this.step = 'ThankYou';
+      window.onbeforeunload = null;
     },
   },
 };
