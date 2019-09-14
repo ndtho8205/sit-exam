@@ -1,20 +1,12 @@
 <template>
-  <v-flex
-    xs12
-    md10
-    lg4
-    offset-xs0
-    offset-md0
-    offset-lg1
-  >
+  <v-flex xs12 md10 lg4 offset-xs0 offset-md0 offset-lg1>
     <v-card>
       <v-card-title>
         <span class="display-1 text--primary">Thank you!</span>
       </v-card-title>
-      <v-card-text
-        :key="idx"
-        v-for="(message, idx) in messages"
-      >{{ message }}</v-card-text>
+      <v-card-text :key="idx" v-for="(message, idx) in messages">{{
+        message
+      }}</v-card-text>
     </v-card>
   </v-flex>
 </template>

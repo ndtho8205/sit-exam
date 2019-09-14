@@ -1,9 +1,5 @@
 <template>
-  <v-layout
-    align-start
-    justify-space-between
-    column
-  >
+  <v-layout align-start justify-space-between column>
     <v-flex align-self-end>
       <VueCountdown
         v-if="step != 2"
@@ -25,29 +21,22 @@
       </VueCountdown>
     </v-flex>
 
-    <v-card
-      flat
-      tile
-    >
+    <v-card flat tile>
       <v-card-title class="title font-weight-regular justify-space-between">
         <span>{{ currentTitle }}</span>
       </v-card-title>
 
       <v-window v-model="step">
         <v-window-item :value="0">
-          <v-card-text
-            :key="idx"
-            v-for="(description, idx) in descriptions"
-          >{{ description }}</v-card-text>
+          <v-card-text :key="idx" v-for="(description, idx) in descriptions">{{
+            description
+          }}</v-card-text>
         </v-window-item>
 
         <v-window-item :value="1">
           <div style="max-height: 600px; overflow-y: scroll">
-            <v-card-text
-              v-for="(item, idx) in items"
-              :key="idx"
-            >
-              <span class="headline font-weight-bold">{{idx + 1}}. </span>
+            <v-card-text v-for="(item, idx) in items" :key="idx">
+              <span class="headline font-weight-bold">{{ idx + 1 }}. </span>
               <span>{{ item }}</span>
             </v-card-text>
           </div>
@@ -59,12 +48,8 @@
       </v-window>
 
       <v-card-actions>
-        <v-btn
-          color="primary"
-          @click="handleNext"
-        >{{ nextButtonLabel }}</v-btn>
+        <v-btn color="primary" @click="handleNext">{{ nextButtonLabel }}</v-btn>
       </v-card-actions>
-
     </v-card>
   </v-layout>
 </template>
@@ -89,11 +74,17 @@ export default {
   created() {
     fetch.getStudyList(this.$store.state.studentInfo.lang, (res, err) => {
       if (!res || err) {
-        this.$store.commit('setError', `${err.message}. Please try again or contact your administrator.`);
+        this.$store.commit(
+          'setError',
+          `${err.message}. Please try again or contact your administrator.`,
+        );
         return;
       }
       if (!res.data || !res.data.descriptions || !res.data.items) {
-        this.$store.commit('setError', 'Cannot get required information from server. Please try again or contact your administrator.');
+        this.$store.commit(
+          'setError',
+          'Cannot get required information from server. Please try again or contact your administrator.',
+        );
         return;
       }
 

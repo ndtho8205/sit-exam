@@ -1,41 +1,25 @@
 <template>
-  <v-flex
-    xs12
-    md10
-    lg6
-    offset-xs0
-    offset-md0
-    offset-lg1
-  >
+  <v-flex xs12 md10 lg6 offset-xs0 offset-md0 offset-lg1>
     <v-stepper v-model="step">
-
       <v-stepper-header>
-        <v-stepper-step
-          :complete="step > 1"
-          step="1"
-          color="primary darken-2"
-        >Test 1</v-stepper-step>
+        <v-stepper-step :complete="step > 1" step="1" color="primary darken-2"
+          >Test 1</v-stepper-step
+        >
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :complete="step > 2"
-          step="2"
-          color="primary darken-2"
-        >Test 2</v-stepper-step>
+        <v-stepper-step :complete="step > 2" step="2" color="primary darken-2"
+          >Test 2</v-stepper-step
+        >
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :complete="step > 3"
-          step="3"
-          color="primary darken-2"
-        >Study</v-stepper-step>
+        <v-stepper-step :complete="step > 3" step="3" color="primary darken-2"
+          >Study</v-stepper-step
+        >
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :complete="step > 4"
-          step="4"
-          color="primary darken-2"
-        >Test 3</v-stepper-step>
+        <v-stepper-step :complete="step > 4" step="4" color="primary darken-2"
+          >Test 3</v-stepper-step
+        >
       </v-stepper-header>
 
       <v-progress-linear
@@ -78,7 +62,6 @@
           />
         </v-stepper-content>
       </v-stepper-items>
-
     </v-stepper>
   </v-flex>
 </template>
@@ -110,7 +93,9 @@ export default {
     handleLoading(status) {
       this.loading = status;
       if (this.loading) {
-        setTimeout(() => { this.loading = false; }, 2000);
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
       }
     },
   },

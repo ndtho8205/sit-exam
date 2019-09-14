@@ -1,12 +1,5 @@
 <template>
-  <v-flex
-    xs12
-    md10
-    lg6
-    offset-xs0
-    offset-md0
-    offset-lg1
-  >
+  <v-flex xs12 md10 lg6 offset-xs0 offset-md0 offset-lg1>
     <v-card>
       <v-progress-linear
         :active="loading"
@@ -24,10 +17,7 @@
       </v-card-title>
 
       <v-card-text>
-        <v-form
-          ref="form"
-          v-model="valid"
-        >
+        <v-form ref="form" v-model="valid">
           <v-text-field
             v-model="info.name"
             :rules="nameRules"
@@ -43,21 +33,9 @@
             <template v-slot:label>
               <div>Gender</div>
             </template>
-            <v-radio
-              key="male"
-              label="Male"
-              value="male"
-            />
-            <v-radio
-              key="female"
-              label="Female"
-              value="female"
-            />
-            <v-radio
-              key="other"
-              label="Other"
-              value="other"
-            />
+            <v-radio key="male" label="Male" value="male" />
+            <v-radio key="female" label="Female" value="female" />
+            <v-radio key="other" label="Other" value="other" />
           </v-radio-group>
 
           <v-text-field
@@ -85,32 +63,16 @@
             <template v-slot:label>
               <div>Choose your language</div>
             </template>
-            <v-radio
-              key="en"
-              label="English"
-              value="en"
-            />
-            <v-radio
-              key="kr"
-              label="Korean"
-              value="kr"
-            />
-            <v-radio
-              key="jp"
-              label="Japanese"
-              value="jp"
-            />
+            <v-radio key="en" label="English" value="en" />
+            <v-radio key="kr" label="Korean" value="kr" />
+            <v-radio key="jp" label="Japanese" value="jp" />
           </v-radio-group>
         </v-form>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn
-          color="primary"
-          @click="handleSubmit"
-        >Continue</v-btn>
+        <v-btn color="primary" @click="handleSubmit">Continue</v-btn>
       </v-card-actions>
-
     </v-card>
   </v-flex>
 </template>
@@ -158,11 +120,17 @@ export default {
       this.handleLoading(true);
       fetch.postStudentInfo(studentInfo, (res, err) => {
         if (!res || err) {
-          this.$store.commit('setError', `${err.message}. Please try again or contact your administrator.`);
+          this.$store.commit(
+            'setError',
+            `${err.message}. Please try again or contact your administrator.`,
+          );
           return;
         }
         if (!res.data || !res.data.studentId) {
-          this.$store.commit('setError', 'Cannot get required information from server. Please try again or contact your administrator.');
+          this.$store.commit(
+            'setError',
+            'Cannot get required information from server. Please try again or contact your administrator.',
+          );
           return;
         }
         const { studentId } = res.data;
@@ -176,10 +144,11 @@ export default {
     handleLoading(status) {
       this.loading = status;
       if (this.loading) {
-        setTimeout(() => { this.loading = false; }, 2000);
+        setTimeout(() => {
+          this.loading = false;
+        }, 2000);
       }
     },
-
   },
 };
 </script>

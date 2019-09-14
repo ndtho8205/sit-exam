@@ -15,10 +15,7 @@
       >
         <div>Oops! {{ errorMsg }}</div>
       </v-alert>
-      <v-container
-        fluid
-        fill-height
-      >
+      <v-container fluid fill-height>
         <v-layout align-center>
           <v-slide-x-transition mode="out-in">
             <component
