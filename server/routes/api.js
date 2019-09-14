@@ -25,8 +25,12 @@ router.post('/info', jsonParser, (req, res) => {
     country: req.body.studentInfo.country,
     email: req.body.studentInfo.email,
   };
-  if (studentInfo.name === undefined || studentInfo.gender === undefined
-    || studentInfo.country === undefined || studentInfo.email === undefined) {
+  if (
+    studentInfo.name === undefined
+    || studentInfo.gender === undefined
+    || studentInfo.country === undefined
+    || studentInfo.email === undefined
+  ) {
     res.sendStatus(400);
     return;
   }

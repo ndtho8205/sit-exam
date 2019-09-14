@@ -2,7 +2,6 @@ const path = require('path');
 const csv = require('fast-csv');
 const { Pool } = require('pg');
 
-
 const pool = new Pool({
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
@@ -10,7 +9,6 @@ const pool = new Pool({
   password: process.env.PG_PASS,
   database: process.env.PG_DATABASE,
 });
-
 
 const selectExam = (examId, lang, callback) => {
   const exam = {
@@ -20,7 +18,11 @@ const selectExam = (examId, lang, callback) => {
   };
 
   const csvPath = path.resolve(`${__dirname}/csv/exam_${examId}_${lang}.csv`);
-  csv.parseFile(csvPath, { headers: ['explain', 'question', 'solution', 'a', 'b', 'c', 'd'], renameHeaders: true })
+  csv
+    .parseFile(csvPath, {
+      headers: ['explain', 'question', 'solution', 'a', 'b', 'c', 'd'],
+      renameHeaders: true,
+    })
     .on('error', (err) => callback(null, err))
     .on('data', (row) => {
       if (row.explain.trim()) {
@@ -44,7 +46,8 @@ const selectStudyList = (lang, callback) => {
   };
 
   const csvPath = path.resolve(`${__dirname}/csv/study_${lang}.csv`);
-  csv.parseFile(csvPath, { headers: ['explain', 'item'], renameHeaders: true })
+  csv
+    .parseFile(csvPath, { headers: ['explain', 'item'], renameHeaders: true })
     .on('error', (err) => callback(null, err))
     .on('data', (row) => {
       if (row.explain.trim()) {
@@ -62,8 +65,13 @@ const selectStudyList = (lang, callback) => {
 const insertStudent = (studentInfo, callback) => {
   pool.query(
     'INSERT INTO exam (name, gender, country, email, time) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [studentInfo.name, studentInfo.gender, studentInfo.country, studentInfo.email,
-      new Date().getTime()],
+    [
+      studentInfo.name,
+      studentInfo.gender,
+      studentInfo.country,
+      studentInfo.email,
+      new Date().getTime(),
+    ],
     (err, results) => {
       if (err) {
         callback(null, err);
