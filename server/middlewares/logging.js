@@ -5,9 +5,11 @@ const logReq = (req, res, next) => {
   next();
 };
 
-const logError = (err, req, res, next) => {
-  logger.error(err);
-  next();
+const logError = (err, req, res) => {
+  logger.error('Error in [logging] middleware', err);
+  if (!res.headersSent) {
+    res.status(err.httpStatusCode || 500).send(err.message);
+  }
 };
 
 module.exports = {

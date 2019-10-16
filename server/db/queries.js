@@ -2,6 +2,8 @@ const path = require('path');
 const csv = require('fast-csv');
 const { Pool } = require('pg');
 
+const logger = require('../utils/log.js');
+
 const pool = new Pool({
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
@@ -23,7 +25,7 @@ const selectExam = (examId, lang, callback) => {
       headers: ['explain', 'question', 'solution', 'a', 'b', 'c', 'd'],
       renameHeaders: true,
     })
-    .on('error', (err) => callback(null, err))
+    .on('error', (err) => callback(err, null))
     .on('data', (row) => {
       if (row.explain.trim()) {
         exam.descriptions.push(row.explain.trim());
@@ -35,7 +37,7 @@ const selectExam = (examId, lang, callback) => {
       exam.solutions[exam.questions.length] = row.solution.toUpperCase();
     })
     .on('end', () => {
-      callback(exam, null);
+      callback(null, exam);
     });
 };
 
@@ -48,7 +50,7 @@ const selectStudyList = (lang, callback) => {
   const csvPath = path.resolve(`${__dirname}/csv/study_${lang}.csv`);
   csv
     .parseFile(csvPath, { headers: ['explain', 'item'], renameHeaders: true })
-    .on('error', (err) => callback(null, err))
+    .on('error', (err) => callback(err, null))
     .on('data', (row) => {
       if (row.explain.trim()) {
         studyList.descriptions.push(row.explain.trim());
@@ -58,7 +60,7 @@ const selectStudyList = (lang, callback) => {
       }
     })
     .on('end', () => {
-      callback(studyList, null);
+      callback(null, studyList);
     });
 };
 
@@ -74,11 +76,12 @@ const insertStudent = (studentInfo, callback) => {
     ],
     (err, results) => {
       if (err) {
-        callback(null, err);
-        return;
+        logger.error('Error in postgres', err);
+        callback(err, null);
+      } else {
+        const studentId = results.rows[0].id;
+        callback(null, studentId);
       }
-      const studentId = results.rows[0].id;
-      callback(studentId, null);
     },
   );
 };
@@ -87,13 +90,13 @@ const updateStudentExam = (examId, data, callback) => {
   pool.query(
     `UPDATE exam SET exam${examId}_answers = $1, exam${examId}_score = $2, exam${examId}_rating= $3 WHERE id = $4`,
     [data.answers, data.score, data.rating, data.studentId],
-    (err) => {
+    (err, results) => {
       if (err) {
-        callback(err);
-        return;
+        logger.error('Error in postgres', err);
+        callback(err, null);
+      } else {
+        callback(null, results);
       }
-
-      callback(null);
     },
   );
 };

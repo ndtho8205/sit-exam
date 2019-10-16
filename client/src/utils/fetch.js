@@ -1,5 +1,7 @@
 const axios = require('axios');
 
+const secure = require('./secure');
+
 const fetch = axios.create({
   baseURL: process.env.VUE_APP_SERVER_URL,
   timeout: 3000,
@@ -7,6 +9,21 @@ const fetch = axios.create({
     // Authorization: '',
     'Content-Type': 'application/json',
   },
+  transformRequest: [
+    (message) => {
+      const encryptedData = {
+        data: secure.encrypt(JSON.stringify(message)),
+      };
+      return JSON.stringify(encryptedData);
+    },
+  ],
+  transformResponse: [
+    (data) => {
+      const json = JSON.parse(data);
+      const decryptedData = secure.decrypt(json.data);
+      return JSON.parse(decryptedData);
+    },
+  ],
 });
 
 const postStudentInfo = (studentInfo, callback) => {
@@ -51,7 +68,7 @@ const getStudyList = (lang, callback) => {
     });
 };
 
-module.exports = {
+export default {
   fetch,
   postStudentInfo,
   getExam,
