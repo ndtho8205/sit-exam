@@ -44,7 +44,10 @@ const post = (req, res, next) => {
         next(err);
       } else {
         // res.json(studentId);
-        res.locals.data = studentId;
+        res.locals.data = {
+          ...studentId,
+          key: process.env.SECRET_KEY,
+        };
         next();
       }
     });
