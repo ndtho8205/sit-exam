@@ -24,34 +24,22 @@ const _postStudentInfo = (studentInfo, callback) => {
 
 const post = (req, res, next) => {
   const studentInfo = {
-    name: req.body.studentInfo.name,
-    gender: req.body.studentInfo.gender,
-    country: req.body.studentInfo.country,
-    email: req.body.studentInfo.email,
+    name: req.body.name,
+    gender: req.body.gender,
+    country: req.body.country,
+    email: req.body.email,
   };
-  if (
-    studentInfo.name === undefined
-    || studentInfo.gender === undefined
-    || studentInfo.country === undefined
-    || studentInfo.email === undefined
-  ) {
-    const errorRes = new Error('Invalid request. Required field is missing.');
-    logger.error('Error in [info] controller', errorRes);
-    next(errorRes);
-  } else {
-    _postStudentInfo(studentInfo, (err, studentId) => {
-      if (err) {
-        next(err);
-      } else {
-        // res.json(studentId);
-        res.locals.data = {
-          ...studentId,
-          key: process.env.SECRET_KEY,
-        };
-        next();
-      }
-    });
-  }
+  _postStudentInfo(studentInfo, (err, studentId) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.locals.data = {
+      ...studentId,
+      key: process.env.SECRET_KEY,
+    };
+    return next();
+  });
 };
 
 module.exports = post;

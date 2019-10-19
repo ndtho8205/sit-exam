@@ -12,8 +12,10 @@ const logger = require('./utils/log');
 const { PORT, ALLOW_ORIGIN } = process.env;
 
 const app = express();
+
 app.use(helmet());
 app.use(cors({ origin: ALLOW_ORIGIN }));
+
 app.use(express.static('public'));
 app.use(loggingMiddleware.logReq);
 app.use(bodyParser.json());

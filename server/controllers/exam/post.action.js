@@ -43,22 +43,15 @@ const post = (req, res, next) => {
     rating: req.body.rating,
   };
 
-  if (data.studentId === undefined || data.answers === undefined || data.rating === undefined) {
-    const errorRes = new Error('Invalid request. Required field is missing.');
-    logger.error('Error in [exam] controller', errorRes);
-    next(errorRes);
-  } else {
-    const { examId, lang } = req.params;
-    _postAnswer(examId, lang, data, (err, score) => {
-      if (err) {
-        next(err);
-      } else {
-        // res.json(score);
-        res.locals.data = score;
-        next();
-      }
-    });
-  }
+  const { examId, lang } = req.params;
+  _postAnswer(examId, lang, data, (err, score) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.locals.data = score;
+    return next();
+  });
 };
 
 module.exports = post;

@@ -17,12 +17,11 @@ const get = (req, res, next) => {
   const { lang } = req.params;
   _getStudyList(lang, (err, studyList) => {
     if (err) {
-      next(err);
-    } else {
-      // res.json(studyList);
-      res.locals.data = studyList;
-      next();
+      return next(err);
     }
+
+    res.locals.data = studyList;
+    return next();
   });
 };
 

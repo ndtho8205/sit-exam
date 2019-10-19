@@ -9,7 +9,7 @@ const encrypt = (req, res, next) => {
     logger.error('Error in [encrypt] middleware', err);
     const errorRes = new Error('Internal server error.');
     errorRes.httpStatusCode = 500;
-    next(errorRes);
+    return next(errorRes);
   }
 };
 

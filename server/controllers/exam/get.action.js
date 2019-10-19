@@ -20,12 +20,11 @@ const get = (req, res, next) => {
   const { examId, lang } = req.params;
   _getExam(examId, lang, (err, exam) => {
     if (err) {
-      next(err);
-    } else {
-      // res.json(exam);
-      res.locals.data = exam;
-      next();
+      return next(err);
     }
+
+    res.locals.data = exam;
+    return next();
   });
 };
 

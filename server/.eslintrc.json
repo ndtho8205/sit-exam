@@ -5,7 +5,9 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb-base"],
+  "extends": [
+    "airbnb-base"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -14,6 +16,7 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "consistent-return": "off"
   }
 }
