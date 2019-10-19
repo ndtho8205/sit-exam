@@ -1,5 +1,9 @@
 const winston = require('winston');
 
+const {
+  combine, colorize, splat, simple,
+} = winston.format;
+
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
@@ -12,7 +16,8 @@ const logger = winston.createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.simple(),
+      silent: process.env.NODE_ENV === 'test',
+      format: combine(winston.format.errors({ stack: true }), colorize(), splat(), simple()),
     }),
   );
 }

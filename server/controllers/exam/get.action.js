@@ -1,12 +1,12 @@
 const db = require('../../db/queries');
 const logger = require('../../utils/log');
+const { DatabaseError } = require('../../utils/error');
 
 const _getExam = (examId, lang, callback) => {
   db.selectExam(examId, lang, (err, exam) => {
     if (err) {
-      const errorRes = new Error('Cannot get the exam.');
-      logger.error('Error in [exam] controller', errorRes);
-      callback(errorRes, null);
+      logger.error('controller.exam.get.failed', err);
+      callback(new DatabaseError('Cannot get the exam.'), null);
     } else {
       callback(null, {
         descriptions: exam.descriptions,

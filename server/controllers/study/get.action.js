@@ -1,12 +1,12 @@
 const db = require('../../db/queries');
 const logger = require('../../utils/log');
+const { DatabaseError } = require('../../utils/error');
 
 const _getStudyList = (lang, callback) => {
   db.selectStudyList(lang, (err, studyList) => {
     if (err) {
-      const errorRes = new Error('Cannot get the list.');
-      logger.error('Error in [study] controller', errorRes);
-      callback(errorRes, null);
+      logger.error('controller.study.get.failed', err);
+      callback(new DatabaseError('Cannot get the study list.'), null);
     } else {
       callback(null, studyList);
     }

@@ -4,6 +4,7 @@
     "dev:server": "npm run dev --prefix ./server",
     "dev:client": "npm run dev --prefix ./client",
     "build": "echo \"Error: build not specified\" && exit 1",
+    "test": "npm run test --prefix ./server",
     "lint": "npm run lint:server && npm run lint:client",
     "lint:server": "npm run lint --prefix ./server",
     "lint:client": "npm run lint --prefix ./client"
@@ -18,7 +19,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && git add ."
+      "pre-commit": "npm run lint && git add . && npm run test"
     }
   },
   "dependencies": {

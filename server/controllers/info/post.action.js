@@ -1,5 +1,6 @@
 const db = require('../../db/queries');
 const logger = require('../../utils/log');
+const { DatabaseError } = require('../../utils/error');
 
 const _postStudentInfo = (studentInfo, callback) => {
   const info = {
@@ -11,9 +12,8 @@ const _postStudentInfo = (studentInfo, callback) => {
 
   db.insertStudent(info, (err, studentId) => {
     if (err) {
-      const errorRes = new Error("Cannot save the student's information.");
-      logger.error('Error in [info] controller', errorRes);
-      callback(errorRes, null);
+      logger.error('controller.info.post.failed', err);
+      callback(new DatabaseError("Cannot save the student's information."), null);
     } else {
       callback(null, {
         studentId,

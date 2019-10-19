@@ -17,7 +17,8 @@ router.post('/info', [
   validator.studentInfoValidationRules,
   validator.validate,
   infoController.post,
-  encrypt]);
+  encrypt,
+]);
 
 router.get('/study/:lang(en|jp|kr)', [studyController.get, encrypt]);
 

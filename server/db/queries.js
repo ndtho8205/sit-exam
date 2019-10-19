@@ -2,8 +2,6 @@ const path = require('path');
 const csv = require('fast-csv');
 const { Pool } = require('pg');
 
-const logger = require('../utils/log.js');
-
 const pool = new Pool({
   host: process.env.PG_HOST,
   port: process.env.PG_PORT,
@@ -76,7 +74,6 @@ const insertStudent = (studentInfo, callback) => {
     ],
     (err, results) => {
       if (err) {
-        logger.error('Error in postgres', err);
         callback(err, null);
       } else {
         const studentId = results.rows[0].id;
@@ -92,7 +89,6 @@ const updateStudentExam = (examId, data, callback) => {
     [data.answers, data.score, data.rating, data.studentId],
     (err, results) => {
       if (err) {
-        logger.error('Error in postgres', err);
         callback(err, null);
       } else {
         callback(null, results);

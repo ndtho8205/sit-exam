@@ -1,17 +1,14 @@
 const secure = require('../utils/secure');
 const logger = require('../utils/log');
+const { RequestError } = require('../utils/error');
 
 const decrypt = (req, res, next) => {
   if (req.method === 'GET') {
     return next();
   }
 
-  const errorRes = new Error('Invalid requested.');
-  errorRes.httpStatusCode = 400;
-
   if (!req.body || !req.body.data) {
-    logger.error('Error in [decrypt] middleware', errorRes);
-    return next(errorRes);
+    return next(new RequestError('Invalid request.'));
   }
 
   try {
@@ -19,8 +16,8 @@ const decrypt = (req, res, next) => {
     req.body = JSON.parse(decrypted);
     return next();
   } catch (err) {
-    logger.error('Error in [decrypt] middleware', err);
-    return next(errorRes);
+    logger.error('middleware.decrypt.failed', err);
+    return next(new RequestError('Request decryption failed.'));
   }
 };
 

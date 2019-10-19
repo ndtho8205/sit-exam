@@ -1,4 +1,5 @@
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
+const { ValidationError } = require('../utils/error');
 
 const studentInfoValidationRules = [
   check('name').not().isEmpty().withMessage('Name is a required field.')
@@ -29,9 +30,7 @@ const validate = (req, res, next) => {
   const extractedErrors = [];
   errors.array().map((err) => extractedErrors.push(err.msg));
 
-  const errorRes = new Error(JSON.stringify({ errors: extractedErrors }));
-  errorRes.httpStatusCode = 422;
-  return next(errorRes);
+  return next(new ValidationError(extractedErrors));
 };
 
 module.exports = {

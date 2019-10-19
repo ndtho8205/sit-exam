@@ -18,6 +18,7 @@ app.use(cors({ origin: ALLOW_ORIGIN }));
 
 app.use(express.static('public'));
 app.use(loggingMiddleware.logReq);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(decryptMiddleware);
 
@@ -26,6 +27,10 @@ app.use('/api', require('./routes/api'));
 
 app.use(loggingMiddleware.logError);
 
-app.listen(PORT, () => {
-  logger.info(`Server is listening on port ${PORT}`);
-});
+if (!module.parent) {
+  app.listen(PORT, () => {
+    logger.info(`Server is listening on port ${PORT}`);
+  });
+}
+
+module.exports = app;

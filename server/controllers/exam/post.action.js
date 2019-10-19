@@ -1,5 +1,6 @@
 const db = require('../../db/queries');
 const logger = require('../../utils/log');
+const { DatabaseError } = require('../../utils/error');
 
 const _computeScore = (solutions, answers) => {
   let score = 0;
@@ -12,12 +13,10 @@ const _computeScore = (solutions, answers) => {
 };
 
 const _postAnswer = (examId, lang, data, callback) => {
-  const errorRes = new Error('Cannot save the student"s answers.');
-
   db.selectExam(examId, lang, (err, { solutions }) => {
     if (err) {
-      logger.error('Error in [exam] controller', errorRes);
-      callback(errorRes, null);
+      logger.error('controller.exam.post.failed', err);
+      callback(new DatabaseError("Cannot save the student's answers."), null);
     } else {
       const newData = {
         ...data,
@@ -26,8 +25,8 @@ const _postAnswer = (examId, lang, data, callback) => {
 
       db.updateStudentExam(examId, newData, (updateError) => {
         if (updateError) {
-          logger.error('Error in [exam] controller', errorRes);
-          callback(errorRes, null);
+          logger.error('controller.exam.post.failed', err);
+          callback(new DatabaseError('Cannot save the student\'s answers.'), null);
         } else {
           callback(null, { score: newData.score });
         }

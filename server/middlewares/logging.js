@@ -1,4 +1,5 @@
 const logger = require('../utils/log');
+const { handleError } = require('../utils/error.js');
 
 const logReq = (req, res, next) => {
   logger.info(`[${req.method} ${req.url}] Params: ${JSON.stringify(req.params)}`);
@@ -7,10 +8,8 @@ const logReq = (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const logError = (err, req, res, next) => {
-  logger.error('Error in [logging] middleware', err);
-  if (!res.headersSent) {
-    res.status(err.httpStatusCode || 500).send(err.message);
-  }
+  logger.error(err);
+  handleError(err, res);
 };
 
 module.exports = {
