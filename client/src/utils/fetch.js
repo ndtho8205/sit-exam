@@ -29,7 +29,7 @@ const fetch = axios.create({
 const postStudentInfo = (studentInfo, callback) => {
   fetch
     .post('/info', {
-      studentInfo,
+      ...studentInfo,
     })
     .then(res => callback(res, null))
     .catch((err) => {
