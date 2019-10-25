@@ -1,21 +1,6 @@
-CREATE DATABASE "sit-exam"
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.utf8'
-    LC_CTYPE = 'en_US.utf8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-
-\connect "sit-exam";
-
--- Table: public.exam
-
--- DROP TABLE public.exam;
-
 CREATE TABLE public.exam
 (
-    id integer NOT NULL DEFAULT nextval('exam_id_seq'::regclass),
+    id serial NOT NULL,
     name character varying(50) COLLATE pg_catalog."default" NOT NULL,
     gender character varying(10) COLLATE pg_catalog."default" NOT NULL,
     country character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -36,7 +21,4 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER TABLE public.exam
-    OWNER to postgres;
 
