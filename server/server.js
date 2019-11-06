@@ -1,6 +1,6 @@
-const config = require('./config');
-const logger = require('./helpers/logger');
-const app = require('./app');
+const config = require('./app/config');
+const logger = require('./app/helpers/logger');
+const app = require('./app/app');
 
 if (!module.parent) {
   app.listen(config.port, (err) => {

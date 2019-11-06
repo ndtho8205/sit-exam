@@ -1,15 +1,15 @@
 const path = require('path');
 const csv = require('fast-csv');
 
+const config = require('../../config');
+
 const get = (lang, callback) => {
   const studyList = {
     descriptions: [],
     items: [],
   };
 
-  const csvPath = path.resolve(
-    `${path.dirname(require.main.filename)}/db/csv/study_${lang}.csv`,
-  );
+  const csvPath = path.resolve(`${config.db.csv}/study_${lang}.csv`);
   csv
     .parseFile(csvPath, { headers: ['explain', 'item'], renameHeaders: true })
     .on('error', (err) => callback(err, null))

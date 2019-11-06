@@ -12,7 +12,7 @@ const logError = (err, req, res, next) => {
   logger.error(err);
 
   if (!res.headersSent) {
-    res.status(err.statusCode || 500).json({
+    return res.status(err.statusCode || 500).json({
       error: {
         name: err.name,
         statusCode: err.statusCode || 500,

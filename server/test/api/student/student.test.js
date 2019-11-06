@@ -4,8 +4,8 @@ process.env.NODE_ENV = 'test';
 const request = require('supertest');
 const { expect } = require('chai');
 
-const cipher = require('../../helpers/cipher');
-const app = require('../../app');
+const cipher = require('../../../app/helpers/cipher');
+const app = require('../../../app/app');
 
 const route = '/api/student';
 const studentInfoMock = {
@@ -19,7 +19,7 @@ describe('# route /api/student ', () => {
   describe(`## GET ${route}`, () => {
     it('should failed with 404 status', (done) => {
       request(app)
-        .get('/api/info')
+        .get(`${route}`)
         .expect(404)
         .end(done);
     });

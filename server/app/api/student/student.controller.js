@@ -1,3 +1,4 @@
+const config = require('../../config');
 const services = require('./student.services');
 
 const post = (req, res, next) => {
@@ -14,7 +15,7 @@ const post = (req, res, next) => {
 
     res.locals.data = {
       ...studentId,
-      key: process.env.SECRET_KEY,
+      key: config.secretKey,
     };
     return next();
   });

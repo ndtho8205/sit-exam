@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 
-const { SECRET_KEY } = process.env;
+const config = require('../config');
+
+const SECRET_KEY = config.secretKey;
 const IV_LENGTH = 16;
 
 function encrypt(text) {

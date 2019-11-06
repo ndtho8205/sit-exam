@@ -2,13 +2,9 @@ const path = require('path');
 const csv = require('fast-csv');
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  host: process.env.PG_HOST,
-  port: process.env.PG_PORT,
-  user: process.env.PG_USER,
-  password: process.env.PG_PASS,
-  database: process.env.PG_DATABASE,
-});
+const config = require('../../config');
+
+const pool = new Pool(config.db.postgres);
 
 const get = (examId, lang, callback) => {
   const exam = {
@@ -17,9 +13,7 @@ const get = (examId, lang, callback) => {
     solutions: {},
   };
 
-  const csvPath = path.resolve(
-    `${path.dirname(require.main.filename)}/db/csv/exam_${examId}_${lang}.csv`,
-  );
+  const csvPath = path.resolve(`${config.db.csv}/exam_${examId}_${lang}.csv`);
   csv
     .parseFile(csvPath, {
       headers: ['explain', 'question', 'solution', 'a', 'b', 'c', 'd'],

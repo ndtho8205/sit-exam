@@ -45,9 +45,16 @@ class DatabaseError extends ExtendableError {
   }
 }
 
+class NotFoundError extends ExtendableError {
+  constructor() {
+    super(404, 'Not Found.');
+  }
+}
+
 module.exports = {
   RequestError,
   ValidationError,
   ServerError,
   DatabaseError,
+  NotFoundError,
 };

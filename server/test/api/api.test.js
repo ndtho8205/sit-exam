@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'test';
 const request = require('supertest');
 const { expect } = require('chai');
 
-const app = require('../../app');
+const app = require('../../app/app');
 
 const route = '/api';
 
@@ -24,7 +24,7 @@ describe('# route /api ', () => {
         .expect('Content-Type', /json/)
         .expect((res) => {
           expect(res.body).to.exist;
-          expect(res.body).to.have.property('message');
+          expect(res.body).to.have.property('messages');
         })
         .end(done);
     });

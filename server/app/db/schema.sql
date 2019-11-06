@@ -7,8 +7,6 @@ CREATE DATABASE "sit-exam"
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
-\connect "sit-exam";
-
 -- Table: public.exam
 
 -- DROP TABLE public.exam;
