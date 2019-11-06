@@ -1,10 +1,10 @@
-const secure = require('../utils/secure');
-const logger = require('../utils/log');
-const { ServerError } = require('../utils/error');
+const cipher = require('../helpers/cipher');
+const logger = require('../helpers/logger');
+const { ServerError } = require('../helpers/error');
 
 const encrypt = (req, res, next) => {
   try {
-    const encrypted = secure.encrypt(JSON.stringify(res.locals.data));
+    const encrypted = cipher.encrypt(JSON.stringify(res.locals.data));
     res.json({ data: encrypted });
   } catch (err) {
     logger.error('middleware.encrypt.failed', err);

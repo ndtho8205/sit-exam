@@ -4,20 +4,22 @@ process.env.NODE_ENV = 'test';
 const request = require('supertest');
 const { expect } = require('chai');
 
-const server = require('../../server');
+const app = require('../../app');
+
+const route = '/api';
 
 describe('# route /api ', () => {
-  describe('## GET /api', () => {
+  describe('## GET {$route}', () => {
     it('should return OK status', (done) => {
-      request(server)
-        .get('/api')
+      request(app)
+        .get(`${route}`)
         .expect(200)
         .end(done);
     });
 
     it('should return a json with message', (done) => {
-      request(server)
-        .get('/api')
+      request(app)
+        .get(`${route}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .expect((res) => {

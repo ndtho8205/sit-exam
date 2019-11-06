@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
-class CustomError extends Error {
+class ExtendableError extends Error {
   constructor(statusCode, messages) {
     super();
 
@@ -21,43 +21,33 @@ class CustomError extends Error {
   }
 }
 
-class RequestError extends CustomError {
+class RequestError extends ExtendableError {
   constructor(messages) {
     super(400, messages);
   }
 }
 
-class ValidationError extends CustomError {
+class ValidationError extends ExtendableError {
   constructor(messages) {
     super(422, messages);
   }
 }
 
-class ServerError extends CustomError {
+class ServerError extends ExtendableError {
   constructor(messages) {
     super(500, messages);
   }
 }
 
-class DatabaseError extends CustomError {
+class DatabaseError extends ExtendableError {
   constructor(messages) {
     super(500, messages);
   }
 }
-
-const handleError = (err, res) => {
-  const { name } = err;
-  if (!res.headersSent) {
-    res.status(err.statusCode || 500).json({
-      error: {
-        name,
-        statusCode: err.statusCode || 500,
-        messages: err.messages || [err.message],
-      },
-    });
-  }
-};
 
 module.exports = {
-  RequestError, ValidationError, ServerError, DatabaseError, handleError,
+  RequestError,
+  ValidationError,
+  ServerError,
+  DatabaseError,
 };
