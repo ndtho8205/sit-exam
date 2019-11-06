@@ -27,7 +27,7 @@ const _computeScore = (solutions, answers) => {
 };
 
 const post = (examId, lang, data, callback) => {
-  model.put(examId, lang, (err, { solutions }) => {
+  model.get(examId, lang, (err, { solutions }) => {
     if (err) {
       logger.error('controller.exam.post.failed', err);
       callback(new DatabaseError("Cannot save the student's answers."), null);
@@ -37,7 +37,7 @@ const post = (examId, lang, data, callback) => {
         score: _computeScore(solutions, data.answers),
       };
 
-      model.updateStudentExam(examId, newData, (updateError) => {
+      model.put(examId, newData, (updateError) => {
         if (updateError) {
           logger.error('controller.exam.post.failed', err);
           callback(
