@@ -1,0 +1,8 @@
+SECRET_KEY=
+ALLOW_ORIGIN='http://localhost:8080'
+PORT=3000
+PG_HOST='localhost'
+PG_PORT=
+PG_USER=
+PG_PASS=
+PG_DATABASE=
